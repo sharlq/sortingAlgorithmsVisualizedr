@@ -24,7 +24,7 @@ function  quickSortR(arr, left, right)
 			arr[j] = tmp;
 			//console.log(arr[i],pivot,arr[j])
 
-            setArray(()=> arr)  //possiable
+            
 			i++;
 			j--;
 
@@ -39,12 +39,12 @@ function  quickSortR(arr, left, right)
 	return arr;
 }
 /////////////////////////////////////////////////////////////
-    
+    let sorted = quickSortR(array,0,array.length-1)
  // there is problem here
     return (
         <div className="array">
-            {array.map( quickSortR(array,0,array.length-1).map(
-                (i)=><div className="block">{i}</div>))
+            {sorted.map( 
+                (i)=><div className="block">{i}</div>)
                 
                 }
         </div>
