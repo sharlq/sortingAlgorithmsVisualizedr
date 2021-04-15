@@ -1,93 +1,58 @@
 import React from 'react'
-import {useState,useEffect} from 'react'
+import {useState} from 'react'
+import sort from "./sorting"
 const Sort = () => {
-const hi =[]
 const [array,setArray] = useState([2,5,3,8,7,1,10,4,6,9])
+const PRIMARY_COLOR = "rgb(0, 132, 255)";
+const SECONDARY_COLOR ="rgb(221, 224, 0)";
+const PIVOT_COLOR = "green";
 
 
 
-////////////////////////////////////////////////////////
-function  quickSortR(arr, left, right)
-{// why the hell does it sort the array when called ? solved using spred operator
-	var i = left;
-	var j = right;
-	var tmp;
-	var pivotidx = (left + right) / 2; 
-	var pivot = parseInt(arr[pivotidx.toFixed()]);  
 
-	while (i <= j)
-	{
-		while (parseInt(arr[i]) < pivot)i++;
-		while (parseInt(arr[j]) > pivot)j--;
-		if (i <= j)
-		{
-			//console.log(arr[i],pivot,arr[j])
-			tmp = arr[i];
-			arr[i] = arr[j];
-			arr[j] = tmp;
-			//console.log(arr[i],pivot,arr[j])
-
-            setTimeout({},100)
-			i++;
-			j--;
-
-		}
-    
-    
-   
-    
-    //console.log(arr)
-	if (left < j)
-		quickSortR(arr, left, j);
-	if (i < right)
-		quickSortR(arr, i, right);
-	return arr;
-	}}
-///////////////////////////////////////////
-
-
- let o = [2,5,3,8,7,1,10,4,6,9]
-let so = quickSortR([...array],0,array.length-1)
-let hm = [...array]// he re remder and then re create this and fuck it up wait no it has worked no its waiting refresh again
-const animate = (arr)=>{
-	
-	let i = 0;
-	const myloop=()=>{
-		const arrbar =document.getElementsByClassName("block")
-	
-			setTimeout(()=>
-			{
-				
-				hm[i]=so[i]
-			 let ll = [...arrbar]
-			 console.log(arrbar[0])
-			 const tryt= arrbar[i].style
-			 tryt.height=`${so[i]*10}px`
-			 tryt.backgroundColor=`red`
-			
-			i++;
-			if(i<10){
-				myloop()
-			}
-		
-			},300)
-			
-			console.log(arrbar[0],i)
-	}
-	
-		myloop()
-			
-	
-}
- // there is problem here
  
+const animate = ()=>{
+let aouw = [...array]
+let	animations = sort(aouw,0,array.length ,[])
+let i = 0;
+//console.log(animations)
+	const myloop=()=>{
+		const arrBar =document.getElementsByClassName("block")
+		const isColor =i%4==1||i%4==3;
+		const isSwitch=i%4==3;
+		if(isColor){
+			let [barOneIdx,barTwoIdx] = animations[i];
+			const barOneStyle = arrBar[barOneIdx].style;
+			if(barTwoIdx>9){barTwoIdx=9}
+			const barTwoStyle = arrBar[barTwoIdx].style;
+			const color =	i%3 === 1 ? PRIMARY_COLOR : SECONDARY_COLOR;
+			setTimeout(()=>{
+				barOneStyle.backgroundColor = color;
+         		barTwoStyle.backgroundColor = color;
+			},5000)
+		}else if(animations[i].length>1){
+			console.log("switch")
+			setTimeout(() => {
+			const [barOneIdx, newHight] = animations[i];
+			const barOneStyle = arrBar[barOneIdx].style;
+			barOneStyle.height =`${newHight*10}px`},5000)
+		}
+		i++
+		if(i<animations.length){
+		myloop()}
+			
+	}
+myloop()
+	}
+ // there is problem here3
+ // untile now i have failes changing the positions of the divs them selfs63
     return (
         <div className="array">
             {array.map( 
-                (i)=><div id={i} className="block" style={{height:`${i*10}px`}}>{i}</div>)
+                (i)=><div key={i} id={i} className="block" style={{height:`${i*10}px`}}>{i}</div>)
                 
                 }
-                <button onClick={()=>animate(so)}>sort</button>
+                <button onClick={()=>animate()}>sort</button>
         </div>
     )
 }
