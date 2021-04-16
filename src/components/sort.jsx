@@ -10,7 +10,7 @@ const PIVOT_COLOR = "green";
 
 
 
- 
+ let m = [2,5,3,8,7,1,10,4,6,9];
 const animate = ()=>{
 let aouw = [...array]
 let	animations = sort(aouw,0,array.length ,[])
@@ -18,27 +18,40 @@ let i = 0;
 //console.log(animations)
 	const myloop=()=>{
 		const arrBar =document.getElementsByClassName("block")
-		const isColor =i%4==1||i%4==3;
+		const isColor =i%4==1||i%4==2;
 		const isSwitch=i%4==3;
 		if(isColor){
 			let [barOneIdx,barTwoIdx] = animations[i];
+			if(barOneIdx>9){barOneIdx=9}
 			const barOneStyle = arrBar[barOneIdx].style;
 			if(barTwoIdx>9){barTwoIdx=9}
 			const barTwoStyle = arrBar[barTwoIdx].style;
-			const color =	i%3 === 1 ? PRIMARY_COLOR : SECONDARY_COLOR;
-			setTimeout(()=>{
+			const color =	i%4 === 2 ? PRIMARY_COLOR : SECONDARY_COLOR;
+			 setTimeout(()=>{
 				barOneStyle.backgroundColor = color;
          		barTwoStyle.backgroundColor = color;
-			},5000)
-		}else if(animations[i].length>1){
-			console.log("switch")
+			},i*500) //note the - i - that means that i dont understand setTimeout
+		}else if(isSwitch){
+
+		
+			console.log("switch",animations[i],i,animations.length)
+			let temp = animations[i];
 			setTimeout(() => {
-			const [barOneIdx, newHight] = animations[i];
-			const barOneStyle = arrBar[barOneIdx].style;
-			barOneStyle.height =`${newHight*10}px`},5000)
-		}
+			
+				
+				
+				const [barOneIdx, barTwoIdx] = temp; // the problem here was that when i put animation[i] its stuck on one value
+				const barOneStyle = arrBar[barTwoIdx].style;
+				barOneStyle.height = `${barTwoIdx*10}px`;
+					console.log(barOneIdx,"fk")
+
+		
+				
+
+			  }, i * 500);}//it look like it set the hight but it is not changing its the same
+			  // wait it only set the last bar
 		i++
-		if(i<animations.length){
+		if(i<animations.length-3){
 		myloop()}
 			
 	}
@@ -49,7 +62,7 @@ myloop()
     return (
         <div className="array">
             {array.map( 
-                (i)=><div key={i} id={i} className="block" style={{height:`${i*10}px`}}>{i}</div>)
+                (i)=><div key={i} id={i} className="block" style={{height:`${i*10}px`}}></div>)
                 
                 }
                 <button onClick={()=>animate()}>sort</button>
