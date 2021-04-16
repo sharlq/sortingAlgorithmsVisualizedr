@@ -18,26 +18,29 @@ function  quickSortR(arr, left, right)
 	{
 		while (parseInt(arr[i]) < pivot)i++;
 		while (parseInt(arr[j]) > pivot)j--;
+		if(j>9){j=9}
 		animation.push([i,j])
+		animation.push([i,j])
+		if(i>9||j>9){console.log(animation.length)}
 		if (i <= j)
 		{
-			animation.push([j,i])
+			
 			tmp = arr[i];
 			arr[i] = arr[j];
 			arr[j] = tmp;
 			i++;
 			j--;
 
-		}else{
-			animation.push([i,j])
 		}
 		
-		animation.push([j,i])
+		animation.push([i,j])
 
 	if (left < j)
 		quickSortR(arr, left, j);
 	if (i < right)
 		quickSortR(arr, i, right);
+
+	console.log(arr)
 	return animation;
     }}
 
