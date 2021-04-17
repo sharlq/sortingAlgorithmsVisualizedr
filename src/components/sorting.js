@@ -1,36 +1,47 @@
+
+let animation =[]
 function  quickSortR(arr, left, right)
-{// why the hell does it sort the array when called ? solved using spred operator
+{
 	var i = left;
 	var j = right;
 	var tmp;
 	var pivotidx = (left + right) / 2; 
-	var pivot = parseInt(arr[pivotidx.toFixed()]);  
+	var pivot = parseInt(arr[pivotidx.toFixed()]);
+	if(pivot){  
+	animation.push(pivot)}
+	else{
+		animation.push(i)
+	}
+
 
 	while (i <= j)
 	{
 		while (parseInt(arr[i]) < pivot)i++;
 		while (parseInt(arr[j]) > pivot)j--;
+		if(j>9){j=9}
+		animation.push([i,j])
+		animation.push([i,j])
+		if(i>9||j>9){console.log(animation.length)}
 		if (i <= j)
 		{
-			//console.log(arr[i],pivot,arr[j])
+			
 			tmp = arr[i];
 			arr[i] = arr[j];
 			arr[j] = tmp;
-			//console.log(arr[i],pivot,arr[j])
-
-            setTimeout({},100)
 			i++;
 			j--;
 
 		}
-    
-    
-   
-    
-    //console.log(arr)
+		
+		animation.push([i,j])
+
 	if (left < j)
 		quickSortR(arr, left, j);
 	if (i < right)
 		quickSortR(arr, i, right);
-	return arr;
+
+	console.log(arr)
+	return animation;
     }}
+
+	export default quickSortR
