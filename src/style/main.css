@@ -9,13 +9,12 @@ html, body {
 }
 
 .block {
-  padding: 20px;
+  width: 20px;
   background: #0084ff;
   color: white;
   font-size: 1em;
   font-weight: 800;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  margin: 1em;
-  border-radius: .5vw;
+  margin: 1px;
 }
 /*# sourceMappingURL=main.css.map */
