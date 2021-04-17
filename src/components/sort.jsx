@@ -1,14 +1,14 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
-import sort from "./sorting" 
-
+import sort from "./quick_sort" 
+import  getMergeSortAnimations from "./merge_sort"
 const Sort = () => {
-const [array,setArray] = useState([8, 2, 5, 7, 4, 3, 12, 6, 19, 11, 10, 13, 9])
+const [array,setArray] = useState([])
 const PRIMARY_COLOR = "rgb(0, 132, 255)";
 const SECONDARY_COLOR ="rgb(221, 224, 0)";
 const PIVOT_COLOR = "green";
 const SORTING_SPEED = 10;
-const NUMBER_OF_ARRAY_BARS = 20;
+const NUMBER_OF_ARRAY_BARS = 50;
 function randomIntFromInterval(min,max)
 {
     return Math.floor( Math.random()*  ( max - min + 1 ) + min );
@@ -24,15 +24,15 @@ const resetArray =()=> {
 useEffect(()=>resetArray(),[])
 
 
-const animate = ()=>{
+const quickSort = ()=>{
 let	animations = sort(array,0,array.length-1 ,[])
 let i = 0;
 let pivotTemp ;
 	const myloop= ()=>{
 		
 		const arrBar =document.getElementsByClassName("block")
-		const isColor =i%4==1||i%4==2;
-		const isSwitch=i%4==3;
+		const isColor =i%4===1||i%4===2;
+		const isSwitch=i%4===3;
 		const isPivot =i%4===0;
 		if(isPivot){
 			
@@ -58,7 +58,7 @@ let pivotTemp ;
 			setTimeout(()=>{
 				barOneStyle.backgroundColor = color;
          		barTwoStyle.backgroundColor = color;
-			},i*SORTING_SPEED) //note the - i - that means that i dont understand setTimeout
+			},i*SORTING_SPEED) 
 		
 		}else if(isSwitch){
 
@@ -81,7 +81,35 @@ let pivotTemp ;
 			
 	}
 myloop()
-	}
+}
+
+	const mergeSort =()=> {
+		const animations = getMergeSortAnimations(array);
+		for (let i = 0; i < animations.length; i++) {
+		  const arrayBars = document.getElementsByClassName('block');
+		  const isColorChange = i % 3 !== 2;
+		  if (isColorChange) {
+			const [barOneIdx, barTwoIdx] = animations[i];
+			console.log(animations[i])
+			const barOneStyle = arrayBars[barOneIdx].style;
+			const barTwoStyle = arrayBars[barTwoIdx].style;
+			const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+			setTimeout(() => {
+			  barOneStyle.backgroundColor = color;
+			  barTwoStyle.backgroundColor = color;
+			}, i * SORTING_SPEED);
+		  } else {
+			setTimeout(() => {
+			  const [barOneIdx, newHeight] = animations[i];
+			  const barOneStyle = arrayBars[barOneIdx].style;
+			  barOneStyle.height = `${newHeight}px`;
+			}, i * SORTING_SPEED);
+		  }
+		}
+	  }
+
+	
+	
  
     return (
         <div className="array">
@@ -91,7 +119,8 @@ myloop()
                 }
 			</div>
 			<div className="control">
-                <button onClick={()=>animate()}>Quick sort</button>
+                <button onClick={()=>quickSort()}>Quick sort</button>
+				<button onClick={()=>mergeSort()}>Merge sort</button>
 				<button onClick={()=>resetArray()}>Generat new array</button>
 			</div>
 		</div>
