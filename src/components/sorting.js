@@ -9,8 +9,9 @@ function  quickSortR(arr, left, right)
 	var pivotidx = (left + right) / 2; 
 	var pivot = parseInt(arr[pivotidx.toFixed()]);
 	
+	
 	if(pivot){  
-	animation.push(pivotidx)}
+	animation.push(pivotidx.toFixed())}
 	else{
 		animation.push(i)
 	}
@@ -43,11 +44,12 @@ function  quickSortR(arr, left, right)
 		IS_SWITCHED = 0;
 
 	if (left < j)
-		quickSortR(arr, left, j);
+		{quickSortR(arr, left, j);}
 	if (i < right)
-		quickSortR(arr, i, right);
+		{quickSortR(arr, i, right);}
 
-	console.log(arr)
+
+	//console.log(arr)
 	return animation;
     }}
 
