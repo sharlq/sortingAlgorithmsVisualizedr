@@ -4,13 +4,15 @@ import sort from "./quick_sort"
 import  getMergeSortAnimations from "./merge_sort"
 import getBubbleSortAnimations from "./bubble_sort"
 import getInseartionSortAnimations from "./insertion_sort"
+import {Button} from '@material-ui/core';
 const Sort = () => {
 const [array,setArray] = useState([])
 const PRIMARY_COLOR = "rgb(0, 132, 255)";
-const SECONDARY_COLOR ="rgb(221, 224, 0)";
-const PIVOT_COLOR = "green";
-const SORTING_SPEED = 10;
+const SECONDARY_COLOR ="#FF0084";
+const PIVOT_COLOR = "#00bd4c";
+const SORTING_SPEED = 5;
 const NUMBER_OF_ARRAY_BARS = 50;
+const SCREEN_WIDTH = window.screen.width;
 function randomIntFromInterval(min,max)
 {
     return Math.floor( Math.random()*  ( max - min + 1 ) + min );
@@ -179,15 +181,22 @@ myloop()
         <div className="array">
 			<div className="data">
             {array.map( 
-                (value,index)=><div key={index} id={index} className="block" style={{height:`${value}px`}}></div>)  
+                (value,index)=><div 
+				key={index} id={index} 
+				className="block" 
+				style={{height:`${value}px`,
+						width:`${(.6*SCREEN_WIDTH)/NUMBER_OF_ARRAY_BARS}px`,
+						margin:`${NUMBER_OF_ARRAY_BARS/20}`}}>
+		
+						</div>)  
                 }
 			</div>
 			<div className="control">
-                <button onClick={()=>quickSort()}>Quick sort</button>
-				<button onClick={()=>mergeSort()}>Merge sort</button>
-				<button onClick={()=>bubbleSort()}>Bubble sort</button>
-				<button onClick={()=>insertionSort()}>Insertion sort</button>
-				<button onClick={()=>resetArray()}>Generat new array</button>
+                <Button variant="contained" className="btn" onClick={()=>quickSort()}>Quick sort</Button>
+				<Button variant="contained" className="btn" onClick={()=>mergeSort()}>Merge sort</Button>
+				<Button variant="contained" className="btn" onClick={()=>bubbleSort()}>Bubble sort</Button>
+				<Button variant="contained" className="btn" onClick={()=>insertionSort()}>Insertion sort</Button>
+				<Button variant="contained" className="btn-new" onClick={()=>resetArray()}>Generat new array</Button>
 			</div>
 		</div>
     )

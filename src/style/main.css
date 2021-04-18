@@ -1,5 +1,7 @@
 html, body {
+  margin: 0;
   height: 100%;
+  width: 100%;
 }
 
 .array {
@@ -17,18 +19,39 @@ html, body {
 }
 
 .block {
-  width: 20px;
+  width: 10px;
   background: #0084ff;
   color: white;
   font-size: 1em;
   font-weight: 800;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  margin: 1px;
+  border: 0px solid rgba(255, 255, 255, 0);
+  margin: .5px;
 }
 
 .data {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.btn {
+  background-color: #0084ff !important;
+  color: white  !important;
+  margin: 1vw !important;
+}
+
+.btn-new {
+  background-color: #00bd4c !important;
+  color: white  !important;
+  margin: 1vw !important;
+}
+
+.control {
+  position: absolute;
+  bottom: 0;
+}
+
+.navbar {
+  background: #FF0084 !important;
 }
 /*# sourceMappingURL=main.css.map */
