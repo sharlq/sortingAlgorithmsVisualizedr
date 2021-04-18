@@ -3,6 +3,7 @@ import {useState,useEffect} from 'react'
 import sort from "./quick_sort" 
 import  getMergeSortAnimations from "./merge_sort"
 import getBubbleSortAnimations from "./bubble_sort"
+import getInseartionSortAnimations from "./insertion_sort"
 const Sort = () => {
 const [array,setArray] = useState([])
 const PRIMARY_COLOR = "rgb(0, 132, 255)";
@@ -124,7 +125,7 @@ myloop()
 				setTimeout(()=>{
 				compareBarStyle.backgroundColor=color;
 				moveBarStyle.backgroundColor=color
-				;},i*10)
+				;},i*SORTING_SPEED)
 
 			}else{
 				setTimeout(()=>{
@@ -133,7 +134,40 @@ myloop()
 				moveBarStyle.height = `${array[move]}px`
 				compareBarStyle.height = `${array[compare]}px`
 				console.log(move)
-			},i*10)
+			},i*SORTING_SPEED)
+			}
+		}
+
+
+
+	}
+
+	/*                 inseartions sort                     */
+
+	
+	const insertionSort = () => {
+		let animations = getInseartionSortAnimations(array)
+		const arrayBars = document.getElementsByClassName('block');
+		for(let i = 0 ; i < animations.length ; i++){
+		let [compare,move] = animations[i]
+			let compareBarStyle = arrayBars[compare].style
+		 	let moveBarStyle = arrayBars[move].style
+			const isSwitch = i%2 ===1
+			const color = i%2 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+			if(!isSwitch){
+				setTimeout(()=>{
+				compareBarStyle.backgroundColor=color;
+				moveBarStyle.backgroundColor=color
+				moveBarStyle.height = `${array[move]}px`
+				;},i*SORTING_SPEED)
+
+			}else{
+				setTimeout(()=>{
+				compareBarStyle.backgroundColor=color;
+				moveBarStyle.backgroundColor=color;
+				moveBarStyle.height = `${array[move]}px`
+				compareBarStyle.height = `${array[compare]}px`
+				},i*SORTING_SPEED)
 			}
 		}
 
@@ -152,6 +186,7 @@ myloop()
                 <button onClick={()=>quickSort()}>Quick sort</button>
 				<button onClick={()=>mergeSort()}>Merge sort</button>
 				<button onClick={()=>bubbleSort()}>Bubble sort</button>
+				<button onClick={()=>insertionSort()}>Insertion sort</button>
 				<button onClick={()=>resetArray()}>Generat new array</button>
 			</div>
 		</div>
