@@ -10,7 +10,6 @@ console.log(array)
             let secondTemp = array[j+1]
             array[j+1]=array[j]
             array[j]= secondTemp
-           
         }
         animations.push([j,j+1])
         animations.push([j,j+1])
