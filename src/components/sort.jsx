@@ -1,72 +1,160 @@
 import React from 'react'
-import {useState} from 'react'
-import sort from "./sorting"
+import {useState,useEffect} from 'react'
+import sort from "./quick_sort" 
+import  getMergeSortAnimations from "./merge_sort"
+import getBubbleSortAnimations from "./bubble_sort"
 const Sort = () => {
-const [array,setArray] = useState([2,5,3,8,7,1,10,4,6,9])
+const [array,setArray] = useState([])
 const PRIMARY_COLOR = "rgb(0, 132, 255)";
 const SECONDARY_COLOR ="rgb(221, 224, 0)";
 const PIVOT_COLOR = "green";
+const SORTING_SPEED = 10;
+const NUMBER_OF_ARRAY_BARS = 50;
+function randomIntFromInterval(min,max)
+{
+    return Math.floor( Math.random()*  ( max - min + 1 ) + min );
+}
 
+const resetArray =()=> {
+    const arr = [];
+    for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
+      arr.push(randomIntFromInterval(5, 730));
+    }
+    setArray(arr);
+  }
+useEffect(()=>resetArray(),[])
 
-
-
- let m = [2,5,3,8,7,1,10,4,6,9];
-const animate = ()=>{
-let aouw = [...array]
-let	animations = sort(aouw,0,array.length ,[])
+/*                          QUICK SORT                           */
+const quickSort = ()=>{
+let	animations = sort(array,0,array.length-1 ,[])
 let i = 0;
-//console.log(animations)
-	const myloop=()=>{
-		const arrBar =document.getElementsByClassName("block")
-		const isColor =i%4==1||i%4==2;
-		const isSwitch=i%4==3;
-		if(isColor){
-			let [barOneIdx,barTwoIdx] = animations[i];
-			if(barOneIdx>9){barOneIdx=9}
-			const barOneStyle = arrBar[barOneIdx].style;
-			if(barTwoIdx>9){barTwoIdx=9}
-			const barTwoStyle = arrBar[barTwoIdx].style;
-			const color =	i%4 === 2 ? PRIMARY_COLOR : SECONDARY_COLOR;
-			 setTimeout(()=>{
-				barOneStyle.backgroundColor = color;
-         		barTwoStyle.backgroundColor = color;
-			},i*500) //note the - i - that means that i dont understand setTimeout
-		}else if(isSwitch){
-
+let pivotTemp ;
+	const myloop= ()=>{
 		
-			console.log("switch",animations[i],i,animations.length)
-			let temp = animations[i];
-			setTimeout(() => {
+		const arrBar =document.getElementsByClassName("block")
+		const isColor =i%4===1||i%4===2;
+		const isSwitch=i%4===3;
+		const isPivot =i%4===0;
+		if(isPivot){
 			
 				
-				
-				const [barOneIdx, barTwoIdx] = temp; // the problem here was that when i put animation[i] its stuck on one value
-				const barOneStyle = arrBar[barTwoIdx].style;
-				barOneStyle.height = `${barTwoIdx*10}px`;
-					console.log(barOneIdx,"fk")
+			 let pivotIdx = animations[i];
+			 console.log(pivotIdx)
+			 let pivot = arrBar[pivotIdx].style;
+			
+			console.log(animations[i],i)
+			 setTimeout(()=>{
+			 console.log(pivotIdx)
+		 		pivot.backgroundColor = PIVOT_COLOR;  
+		 		pivotTemp = pivot;
+			 },i*SORTING_SPEED)
+			
+			
+		}else if(isColor){
 
+			let [barOneIdx,barTwoIdx] = animations[i];
+			const barOneStyle = arrBar[barOneIdx].style;
+			const barTwoStyle = arrBar[barTwoIdx].style;
+			const color =	i%4 === 2 ? PRIMARY_COLOR : SECONDARY_COLOR;
+			setTimeout(()=>{
+				barOneStyle.backgroundColor = color;
+         		barTwoStyle.backgroundColor = color;
+			},i*SORTING_SPEED) 
 		
-				
-
-			  }, i * 500);}//it look like it set the hight but it is not changing its the same
-			  // wait it only set the last bar
+		}else if(isSwitch){
+		
+			let temp = animations[i];
+			setTimeout(() => {
+				const [barOneIdx, barTwoIdx] = temp; 
+				const barOneStyle = arrBar[barTwoIdx].style;
+				const barTwoStyle = arrBar[barOneIdx].style;
+				barOneStyle.height = `${array[barTwoIdx]}px`;
+				barTwoStyle.height = `${array[barOneIdx]}px`;
+				pivotTemp.backgroundColor = PRIMARY_COLOR;	
+			  }, i * SORTING_SPEED);}
+			    
 		i++
-		if(i<animations.length-3){
+		if(i<animations.length-1){
 		myloop()}
 			
 	}
 myloop()
+}
+/*                        MERGE SORT                             */
+
+
+
+	const mergeSort =()=> {
+		const animations = getMergeSortAnimations(array);
+		for (let i = 0; i < animations.length; i++) {
+		  const arrayBars = document.getElementsByClassName('block');
+		  const isColorChange = i % 3 !== 2;
+		  if (isColorChange) {
+			const [barOneIdx, barTwoIdx] = animations[i];
+			const barOneStyle = arrayBars[barOneIdx].style;
+			const barTwoStyle = arrayBars[barTwoIdx].style;
+			const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+			setTimeout(() => {
+			  barOneStyle.backgroundColor = color;
+			  barTwoStyle.backgroundColor = color;
+			}, i * SORTING_SPEED);
+		  } else {
+			setTimeout(() => {
+			  const [barOneIdx, newHeight] = animations[i];
+			  const barOneStyle = arrayBars[barOneIdx].style;
+			  barOneStyle.height = `${newHeight}px`;
+			}, i * SORTING_SPEED);
+		  }
+		}
+	  }
+
+	/*                       BUBBLE SORT                              */
+	
+	const bubbleSort = () => {
+		let animations = getBubbleSortAnimations(array)
+		console.log(animations)
+		const arrayBars = document.getElementsByClassName('block');
+		for(let i = 0 ; i < animations.length ; i++){
+		let [compare,move] = animations[i]
+			let compareBarStyle = arrayBars[compare].style
+		 	let moveBarStyle = arrayBars[move].style
+			const isSwitch = i%2 ===1
+			const color = i%2 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+			if(!isSwitch){
+				setTimeout(()=>{
+				compareBarStyle.backgroundColor=color;
+				moveBarStyle.backgroundColor=color
+				;},i*10)
+
+			}else{
+				setTimeout(()=>{
+				compareBarStyle.backgroundColor=color;
+				moveBarStyle.backgroundColor=color;
+				moveBarStyle.height = `${array[move]}px`
+				compareBarStyle.height = `${array[compare]}px`
+				console.log(move)
+			},i*10)
+			}
+		}
+
+
+
 	}
- // there is problem here3
- // untile now i have failes changing the positions of the divs them selfs63
+
     return (
         <div className="array">
+			<div className="data">
             {array.map( 
-                (i)=><div key={i} id={i} className="block" style={{height:`${i*10}px`}}></div>)
-                
+                (value,index)=><div key={index} id={index} className="block" style={{height:`${value}px`}}></div>)  
                 }
-                <button onClick={()=>animate()}>sort</button>
-        </div>
+			</div>
+			<div className="control">
+                <button onClick={()=>quickSort()}>Quick sort</button>
+				<button onClick={()=>mergeSort()}>Merge sort</button>
+				<button onClick={()=>bubbleSort()}>Bubble sort</button>
+				<button onClick={()=>resetArray()}>Generat new array</button>
+			</div>
+		</div>
     )
 }
 
