@@ -1,0 +1,30 @@
+@media (max-width:760px) {
+
+    .array{
+        height: 800px;
+       display: grid;
+        grid-template-rows: 6fr 1fr 2fr;
+        justify-items: center;
+    }
+    .data{
+        align-self: start;
+        height: 500px;
+    }
+    .sliders{
+        position: inherit !important;
+        }
+        .makeStyles-root-1 {
+            width: 50vw !important;
+        }
+        .control{
+            position:inherit ;
+            justify-self: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .btn-new{
+            grid-column:1/3;
+            
+            
+        }
+}

@@ -1,10 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Sort from'./components/sort';
 import "./style/main.css"
+import React from 'react';
+import Sort from'./components/sort';
+import Nav from "./components/nav";
+import 'fontsource-roboto';
+
+
 function App() {
   return (
+    
     <div className="App">
+    <Nav />
     <Sort />
     </div>
   );
