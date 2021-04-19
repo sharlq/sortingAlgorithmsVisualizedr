@@ -1,4 +1,4 @@
-//let array = [5,6,78,9,1,32,445,14,78,6,2,1]
+
 function bubbleSort (array){
 let animations =[]
 for(let i = 0 ; i< array.length;i++){
