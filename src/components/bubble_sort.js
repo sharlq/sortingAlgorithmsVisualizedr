@@ -7,8 +7,8 @@ for(let i = 0 ; i< array.length;i++){
             let tmp = array[j];
             array[j] = array[j + 1];
             array[j + 1] = tmp;
-            animations.push([j,j+1])
-            animations.push([j,j+1])
+            animations.push([array[j],array[j+1],j,j+1])
+            animations.push([array[j],array[j+1],j,j+1])
         }
     }
 }

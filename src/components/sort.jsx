@@ -5,13 +5,15 @@ import  getMergeSortAnimations from "./merge_sort"
 import getBubbleSortAnimations from "./bubble_sort"
 import getInseartionSortAnimations from "./insertion_sort"
 import {Button} from '@material-ui/core';
+import CustomizedSlider from "./control"
+
 const Sort = () => {
 const [array,setArray] = useState([])
+const [animationSpeed,setAnimationSpeed] = useState(500)
+const [numberOfArrayElements,setNumberOfArrayElements] = useState(50)
 const PRIMARY_COLOR = "rgb(0, 132, 255)";
 const SECONDARY_COLOR ="#FF0084";
 const PIVOT_COLOR = "#00bd4c";
-const SORTING_SPEED = 5;
-const NUMBER_OF_ARRAY_BARS = 50;
 const SCREEN_WIDTH = window.screen.width;
 function randomIntFromInterval(min,max)
 {
@@ -20,12 +22,21 @@ function randomIntFromInterval(min,max)
 
 const resetArray =()=> {
     const arr = [];
-    for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
+    for (let i = 0; i < numberOfArrayElements; i++) {
       arr.push(randomIntFromInterval(5, 730));
     }
     setArray(arr);
   }
 useEffect(()=>resetArray(),[])
+
+const handleArrayChange = (event,num) =>{
+	setNumberOfArrayElements(num)
+	resetArray()
+}
+const handleSpeed = (event,num) =>{
+	setAnimationSpeed(num)
+}
+
 
 /*                          QUICK SORT                           */
 const quickSort = ()=>{
@@ -35,46 +46,48 @@ let pivotTemp ;
 	const myloop= ()=>{
 		
 		const arrBar =document.getElementsByClassName("block")
-		const isColor =i%4===1||i%4===2;
-		const isSwitch=i%4===3;
-		const isPivot =i%4===0;
+		const isColor =i%3===1;
+		const isSwitch=i%3===2;
+		const isPivot =i%3===0;
+		const color =	i%3 === 2 ? PRIMARY_COLOR : SECONDARY_COLOR;
 		if(isPivot){
 			
-				
-			 let pivotIdx = animations[i];
-			 console.log(pivotIdx)
-			 let pivot = arrBar[pivotIdx].style;
 			
-			console.log(animations[i],i)
-			 setTimeout(()=>{
-			 console.log(pivotIdx)
-		 		pivot.backgroundColor = PIVOT_COLOR;  
-		 		pivotTemp = pivot;
-			 },i*SORTING_SPEED)
+			  let pivotIdx = animations[i];
+			  let pivot = arrBar[pivotIdx].style;
+			  setTimeout(()=>{
+		 	 	pivot.backgroundColor = PIVOT_COLOR;  
+		 	 	pivotTemp = pivot;
+			  },i*(500/animationSpeed))
 			
 			
 		}else if(isColor){
 
-			let [barOneIdx,barTwoIdx] = animations[i];
+			let [barOneValue,barTowValue,barOneIdx,barTwoIdx] = animations[i];
 			const barOneStyle = arrBar[barOneIdx].style;
 			const barTwoStyle = arrBar[barTwoIdx].style;
-			const color =	i%4 === 2 ? PRIMARY_COLOR : SECONDARY_COLOR;
+			
 			setTimeout(()=>{
 				barOneStyle.backgroundColor = color;
          		barTwoStyle.backgroundColor = color;
-			},i*SORTING_SPEED) 
+			},i*(500/animationSpeed)) 
 		
 		}else if(isSwitch){
 		
 			let temp = animations[i];
 			setTimeout(() => {
-				const [barOneIdx, barTwoIdx] = temp; 
-				const barOneStyle = arrBar[barTwoIdx].style;
-				const barTwoStyle = arrBar[barOneIdx].style;
-				barOneStyle.height = `${array[barTwoIdx]}px`;
-				barTwoStyle.height = `${array[barOneIdx]}px`;
+				const [barOneValue,barTwoValue,barOneIdx, barTwoIdx] = temp; 
+				try{
+				const barOneStyle = arrBar[barOneIdx].style;
+				const barTwoStyle = arrBar[barTwoValue].style;
+				
+				barOneStyle.backgroundColor = color;
+         		barTwoStyle.backgroundColor = color;
+				barOneStyle.height = `${barOneValue}px`;
+				barTwoStyle.height = `${barTwoValue}px`;
 				pivotTemp.backgroundColor = PRIMARY_COLOR;	
-			  }, i * SORTING_SPEED);}
+			}catch{console.log(arrBar[barTwoIdx],arrBar[barOneIdx],barTwoIdx,barOneIdx)}
+			  }, i * (500/animationSpeed));}
 			    
 		i++
 		if(i<animations.length-1){
@@ -100,13 +113,13 @@ myloop()
 			setTimeout(() => {
 			  barOneStyle.backgroundColor = color;
 			  barTwoStyle.backgroundColor = color;
-			}, i * SORTING_SPEED);
+			}, i * (500/animationSpeed));
 		  } else {
 			setTimeout(() => {
 			  const [barOneIdx, newHeight] = animations[i];
 			  const barOneStyle = arrayBars[barOneIdx].style;
 			  barOneStyle.height = `${newHeight}px`;
-			}, i * SORTING_SPEED);
+			}, i * (500/animationSpeed));
 		  }
 		}
 	  }
@@ -118,7 +131,7 @@ myloop()
 		console.log(animations)
 		const arrayBars = document.getElementsByClassName('block');
 		for(let i = 0 ; i < animations.length ; i++){
-		let [compare,move] = animations[i]
+		let [compareValue,moveValue,compare,move] = animations[i]
 			let compareBarStyle = arrayBars[compare].style
 		 	let moveBarStyle = arrayBars[move].style
 			const isSwitch = i%2 ===1
@@ -127,16 +140,16 @@ myloop()
 				setTimeout(()=>{
 				compareBarStyle.backgroundColor=color;
 				moveBarStyle.backgroundColor=color
-				;},i*SORTING_SPEED)
+				;},i*(500/animationSpeed))
 
 			}else{
 				setTimeout(()=>{
 				compareBarStyle.backgroundColor=color;
 				moveBarStyle.backgroundColor=color;
-				moveBarStyle.height = `${array[move]}px`
-				compareBarStyle.height = `${array[compare]}px`
+				moveBarStyle.height = `${moveValue}px`
+				compareBarStyle.height = `${compareValue}px`
 				console.log(move)
-			},i*SORTING_SPEED)
+			},i*(500/animationSpeed))
 			}
 		}
 
@@ -151,7 +164,7 @@ myloop()
 		let animations = getInseartionSortAnimations(array)
 		const arrayBars = document.getElementsByClassName('block');
 		for(let i = 0 ; i < animations.length ; i++){
-		let [compare,move] = animations[i]
+			let [compareValue,moveValue,compare,move] = animations[i]
 			let compareBarStyle = arrayBars[compare].style
 		 	let moveBarStyle = arrayBars[move].style
 			const isSwitch = i%2 ===1
@@ -161,15 +174,15 @@ myloop()
 				compareBarStyle.backgroundColor=color;
 				moveBarStyle.backgroundColor=color
 				moveBarStyle.height = `${array[move]}px`
-				;},i*SORTING_SPEED)
+				;},i*(500/animationSpeed))
 
 			}else{
 				setTimeout(()=>{
 				compareBarStyle.backgroundColor=color;
 				moveBarStyle.backgroundColor=color;
-				moveBarStyle.height = `${array[move]}px`
-				compareBarStyle.height = `${array[compare]}px`
-				},i*SORTING_SPEED)
+				moveBarStyle.height = `${moveValue}px`
+				compareBarStyle.height = `${compareValue}px`
+				},i*(500/animationSpeed))
 			}
 		}
 
@@ -185,11 +198,18 @@ myloop()
 				key={index} id={index} 
 				className="block" 
 				style={{height:`${value}px`,
-						width:`${(.6*SCREEN_WIDTH)/NUMBER_OF_ARRAY_BARS}px`,
-						margin:`${NUMBER_OF_ARRAY_BARS/20}`}}>
+						width:`${(.55*SCREEN_WIDTH)/numberOfArrayElements}px`,
+						margin:`${numberOfArrayElements/20}`}}>
 		
 						</div>)  
                 }
+			</div>
+			<div className="sliders">
+				<CustomizedSlider 
+				handleArray={handleArrayChange} 
+				handleSpeed={handleSpeed}
+				arrayElements={numberOfArrayElements}
+				animationSpeed={animationSpeed}/>
 			</div>
 			<div className="control">
                 <Button variant="contained" className="btn" onClick={()=>quickSort()}>Quick sort</Button>
