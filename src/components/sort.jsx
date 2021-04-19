@@ -6,15 +6,18 @@ import getBubbleSortAnimations from "./bubble_sort"
 import getInseartionSortAnimations from "./insertion_sort"
 import {Button} from '@material-ui/core';
 import CustomizedSlider from "./control"
+import responsive from "./responsive"
 
 const Sort = () => {
 const [array,setArray] = useState([])
-const [animationSpeed,setAnimationSpeed] = useState(500)
-const [numberOfArrayElements,setNumberOfArrayElements] = useState(50)
+const [animationSpeed,setAnimationSpeed] = useState(1)
+const [numberOfArrayElements,setNumberOfArrayElements] = useState(20)
 const PRIMARY_COLOR = "rgb(0, 132, 255)";
 const SECONDARY_COLOR ="#FF0084";
 const PIVOT_COLOR = "#00bd4c";
-const SCREEN_WIDTH = window.screen.width;
+const SCREEN_WIDTH = window.innerWidth;
+const [arrayViewRation,arrayMaxValue] = responsive(SCREEN_WIDTH)
+console.log(arrayViewRation)
 function randomIntFromInterval(min,max)
 {
     return Math.floor( Math.random()*  ( max - min + 1 ) + min );
@@ -23,8 +26,9 @@ function randomIntFromInterval(min,max)
 const resetArray =()=> {
     const arr = [];
     for (let i = 0; i < numberOfArrayElements; i++) {
-      arr.push(randomIntFromInterval(5, 730));
+      arr.push(randomIntFromInterval(5, arrayMaxValue));
     }
+	console.log(window.innerWidth)
     setArray(arr);
   }
 useEffect(()=>resetArray(),[])
@@ -198,8 +202,8 @@ myloop()
 				key={index} id={index} 
 				className="block" 
 				style={{height:`${value}px`,
-						width:`${(.55*SCREEN_WIDTH)/numberOfArrayElements}px`,
-						margin:`${numberOfArrayElements/20}`}}>
+						width:`${(arrayViewRation*SCREEN_WIDTH)/numberOfArrayElements}px`,
+						margin:`${numberOfArrayElements/((SCREEN_WIDTH/arrayViewRation)*20)}`}}>
 		
 						</div>)  
                 }
