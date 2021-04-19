@@ -1,6 +1,6 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
-import sort from "./quick_sort" 
+import getQuickSortAnimation from "./quick_sort" 
 import  getMergeSortAnimations from "./merge_sort"
 import getBubbleSortAnimations from "./bubble_sort"
 import getInseartionSortAnimations from "./insertion_sort"
@@ -17,7 +17,7 @@ const SECONDARY_COLOR ="#FF0084";
 const PIVOT_COLOR = "#00bd4c";
 const SCREEN_WIDTH = window.innerWidth;
 const [arrayViewRation,arrayMaxValue] = responsive(SCREEN_WIDTH)
-console.log(arrayViewRation)
+
 function randomIntFromInterval(min,max)
 {
     return Math.floor( Math.random()*  ( max - min + 1 ) + min );
@@ -44,10 +44,9 @@ const handleSpeed = (event,num) =>{
 
 /*                          QUICK SORT                           */
 const quickSort = ()=>{
-let	animations = sort(array,0,array.length-1 ,[])
-let i = 0;
+let	animations = getQuickSortAnimation(array,0,array.length-1)
 let pivotTemp ;
-	const myloop= ()=>{
+	for (let i = 0; i < animations.length; i++) {
 		
 		const arrBar =document.getElementsByClassName("block")
 		const isColor =i%3===1;
@@ -55,51 +54,41 @@ let pivotTemp ;
 		const isPivot =i%3===0;
 		const color =	i%3 === 2 ? PRIMARY_COLOR : SECONDARY_COLOR;
 		if(isPivot){
-			
-			
 			  let pivotIdx = animations[i];
 			  let pivot = arrBar[pivotIdx].style;
 			  setTimeout(()=>{
 		 	 	pivot.backgroundColor = PIVOT_COLOR;  
 		 	 	pivotTemp = pivot;
 			  },i*(500/animationSpeed))
-			
-			
 		}else if(isColor){
-
 			let [barOneValue,barTowValue,barOneIdx,barTwoIdx] = animations[i];
 			const barOneStyle = arrBar[barOneIdx].style;
 			const barTwoStyle = arrBar[barTwoIdx].style;
-			
 			setTimeout(()=>{
 				barOneStyle.backgroundColor = color;
          		barTwoStyle.backgroundColor = color;
 			},i*(500/animationSpeed)) 
 		
 		}else if(isSwitch){
-		
+			
 			let temp = animations[i];
+			const [barOneValue,barTwoValue,barOneIdx, barTwoIdx] = temp;
+			const barOneStyle = arrBar[barOneIdx].style;
+			const barTwoStyle = arrBar[barTwoIdx].style; 
+	
 			setTimeout(() => {
-				const [barOneValue,barTwoValue,barOneIdx, barTwoIdx] = temp; 
-				try{
-				const barOneStyle = arrBar[barOneIdx].style;
-				const barTwoStyle = arrBar[barTwoValue].style;
-				
 				barOneStyle.backgroundColor = color;
          		barTwoStyle.backgroundColor = color;
 				barOneStyle.height = `${barOneValue}px`;
 				barTwoStyle.height = `${barTwoValue}px`;
 				pivotTemp.backgroundColor = PRIMARY_COLOR;	
-			}catch{console.log(arrBar[barTwoIdx],arrBar[barOneIdx],barTwoIdx,barOneIdx)}
-			  }, i * (500/animationSpeed));}
-			    
-		i++
-		if(i<animations.length-1){
-		myloop()}
+			  }, i * (500/animationSpeed));
+			   
+ 
 			
+			  
 	}
-myloop()
-}
+}}
 /*                        MERGE SORT                             */
 
 
