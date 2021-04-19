@@ -11,8 +11,8 @@ console.log(array)
             array[j+1]=array[j]
             array[j]= secondTemp
         }
-        animations.push([j,j+1])
-        animations.push([j,j+1])
+        animations.push([array[j],array[j+1],j,j+1])
+        animations.push([array[j],array[j+1],j,j+1])
      }
  }
 

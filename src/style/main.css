@@ -51,6 +51,11 @@ html, body {
   bottom: 0;
 }
 
+.sliders {
+  position: absolute;
+  right: 2vw;
+}
+
 .navbar {
   background: #FF0084 !important;
 }
