@@ -1,10 +1,9 @@
-let animations = [];
+
 function insertionSort (array){
-console.log(array)
+let animations = [];
  for(let i = 0 ; i <array.length ; i++){
      let temp = array.splice(i,1)
      array.unshift(...temp)
-     
      for(let j = 0 ; j < i ;j++){
         if(array[j]>array[j+1]){
             let secondTemp = array[j+1]
