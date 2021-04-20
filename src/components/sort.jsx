@@ -10,7 +10,7 @@ import responsive from "./responsive"
 
 const Sort = () => {
 const [array,setArray] = useState([])
-const [animationSpeed,setAnimationSpeed] = useState(1)
+const [animationSpeed,setAnimationSpeed] = useState(100)
 const [numberOfArrayElements,setNumberOfArrayElements] = useState(20)
 const PRIMARY_COLOR = "rgb(0, 132, 255)";
 const SECONDARY_COLOR ="#FF0084";
@@ -28,7 +28,6 @@ const resetArray =()=> {
     for (let i = 0; i < numberOfArrayElements; i++) {
       arr.push(randomIntFromInterval(5, arrayMaxValue));
     }
-	console.log(window.innerWidth)
     setArray(arr);
   }
 useEffect(()=>resetArray(),[])
