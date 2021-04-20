@@ -22,4 +22,7 @@ and it contain teh following features
 4. you can geneerate a new array
 5. it is responsive
 
-
+# things i have learned through the project
+1. practiced writing and using sorting algorithems  
+2. material UI  
+3. preacticed react 
